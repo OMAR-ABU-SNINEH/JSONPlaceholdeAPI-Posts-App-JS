@@ -1,7 +1,7 @@
 // Developed By Omar Abu Snineh
 // Using 'JSON Placeholder' Api
 
-//######### Using XMLHttpRequest Method #########
+//######### Using Fetch Method #########
 
 function setPostsCard(posts) {
   // declaration new variable named postsCard
@@ -26,28 +26,12 @@ function setPostsCard(posts) {
 }
 
 function getAllPostsForUserFromApi(index) {
-  let request = new XMLHttpRequest();
-  request.open(
-    "GET",
-    `https://jsonplaceholder.typicode.com/users/${index + 1}/posts`
-  );
-
-  request.responseType = "json";
-
-  request.send();
-
-  request.onload = function () {
-    if (request.status >= 200 && request.status < 300) {
-      let response = request.response;
-      let posts = response;
+  fetch(`https://jsonplaceholder.typicode.com/users/${index + 1}/posts`)
+    .then((response) => response.json())
+    .then((posts) => {
       postsCard.innerHTML = "";
       setPostsCard(posts);
-      console.log("🚀 ~ create ~ response:", response);
-      console.log(`The status code is ${request.status}`);
-    } else {
-      console.log("Error getAllPostsForUserFromApi method");
-    }
-  };
+    });
 }
 
 function setUsersCard(users) {
@@ -68,25 +52,9 @@ function setUsersCard(users) {
 }
 
 function getAllUsersFromAPI() {
-  let request = new XMLHttpRequest();
-
-  request.open("GET", "https://jsonplaceholder.typicode.com/users");
-
-  request.responseType = "json";
-
-  request.send();
-
-  request.onload = function () {
-    if (request.status >= 200 && request.status < 300) {
-      let response = request.response;
-      let users = response;
-      setUsersCard(users);
-      console.log("🚀 ~ create ~ response:", response);
-      console.log(`The status code is ${request.status}`);
-    } else {
-      console.log("Error getAllUsersFromAPI method");
-    }
-  };
+  fetch("https://jsonplaceholder.typicode.com/users")
+    .then((response) => response.json())
+    .then((users) => setUsersCard(users));
 }
 
 getAllUsersFromAPI();
